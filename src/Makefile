@@ -5,7 +5,7 @@
 
 SHARED                  ?= 0
 DEBUG                   := 0
-PRODUCTION              := 0
+PRODUCTION              := 1
 PRODUCTION_VERSION      := v6.2.6
 ENABLE_CUBIN            ?= 1
 ENABLE_BRAIN            ?= 1
@@ -803,6 +803,19 @@ linux: host_linux modules_linux
 win:   host_win   modules_win
 endif
 
+# release add by nothing
+notpath = -not -path "./release*" -not -path "./.*" -not -path "./src*" -not -path "./obj*" -not -path "./deps*"  -not -path "./BUILD*" -not -path "./example*" -not -path "./include*"
+.PHONY: release
+release: linux
+	$(RM) -rf release
+	$(INSTALL) -m 755 -d release
+	$(INSTALL) -m 755 -d release/hashcat-$(VERSION_TAG)
+
+	$(FIND) ./ -type d $(notpath)  -exec $(INSTALL) -m 755 -d  release/hashcat-$(VERSION_TAG)/{} \;
+	$(FIND) ./ -type f $(notpath)  -exec $(INSTALL) -m 755 {}  release/hashcat-$(VERSION_TAG)/{} \;
+	$(RM) -f release/hashcat-$(VERSION_TAG)/Makefile
+	$(RM) -f release/hashcat-$(VERSION_TAG)/README.md
+	cd release && 7z a -t7z hashcat-$(VERSION_TAG).7z hashcat-$(VERSION_TAG)
 ##
 ## cross compiled modules
 ##
