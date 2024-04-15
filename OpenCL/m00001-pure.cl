@@ -28,8 +28,6 @@ typedef struct ethereum_pbkdf2
 {
   u32 salt_buf[16];
   u32 ciphertext[32];
-  u32 ciphertext_len;
-
 } ethereum_pbkdf2_t;
 
 #define COMPARE_S M2S(INCLUDE_PATH/inc_comp_single.cl)
@@ -413,11 +411,38 @@ KERNEL_FQ void m00001_comp (KERN_ATTR_TMPS_ESALT (pbkdf2_sha256_tmp_t, ethereum_
    */
 
   u32 ciphertext[32];
-  u32 ciphertext_len = esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext_len;
-  // 循环赋值
-  for (int i = 0; i < 32; i++) {
-      ciphertext[i] = esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[i];
-  }
+  ciphertext[0]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[0];
+  ciphertext[1]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[1];
+  ciphertext[2]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[2];
+  ciphertext[3]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[3];
+  ciphertext[4]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[4];
+  ciphertext[5]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[5];
+  ciphertext[6]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[6];
+  ciphertext[7]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[7];
+  ciphertext[8]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[8];
+  ciphertext[9]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[9];
+  ciphertext[10]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[10];
+  ciphertext[11]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[11];
+  ciphertext[12]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[12];
+  ciphertext[13]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[13];
+  ciphertext[14]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[14];
+  ciphertext[15]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[15];
+  ciphertext[16]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[16];
+  ciphertext[17]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[17];
+  ciphertext[18]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[18];
+  ciphertext[19]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[19];
+  ciphertext[20]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[20];
+  ciphertext[21]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[21];
+  ciphertext[22]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[22];
+  ciphertext[23]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[23];
+  ciphertext[24]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[24];
+  ciphertext[25]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[25];
+  ciphertext[26]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[26];
+  ciphertext[27]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[27];
+  ciphertext[28]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[28];
+  ciphertext[29]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[29];
+  ciphertext[30]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[30];
+  ciphertext[31]=esalt_bufs[DIGESTS_OFFSET_HOST].ciphertext[31];
 
   u32 key[4];
 
@@ -453,11 +478,6 @@ KERNEL_FQ void m00001_comp (KERN_ATTR_TMPS_ESALT (pbkdf2_sha256_tmp_t, ethereum_
   st[22] = 0;
   st[23] = 0;
   st[24] = 0;
-
-
-
-  //ciphertext 在外部处理过padding,这里就不用处理了
-
 
   keccak_transform_S (st);
 

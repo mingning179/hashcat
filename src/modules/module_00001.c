@@ -30,7 +30,7 @@ static const u32   SALT_TYPE      = SALT_TYPE_EMBEDDED;
 //static const char *ST_HASH        = "$ethereum$p*1024*38353131353831333338313138363430*a8b4dfe92687dbc0afeb5dae7863f18964241e96b264f09959903c8c924583fc*0a9252861d1e235994ce33dbca91c98231764d8ecb4950015a8ae20d6415b986";
 
 static const char *ST_PASS        = "abcd1234";
-static const char *ST_HASH        = "$ethereum$p*10240*b38a0b6bf26e69d1e4e1319484a4356f27b638f2c3c3a05e2c6e2cbeff03ccaf*cbf3b826c51c7ff382c2aa71cea4f9cb8559adc73c63f924eb0e1aacc0fddba0e6dc362193d92b09a541bc52c5e510e705a40d949bc86e9e5e1c35eb252bc2914f2e052f4a33ab9e773fa900e5904242ed6a3435fbe500a6060993707f17d8d0790ce314593aee87dc6a5ef1d299b90100000000000000800000000000000000*acf3fe234b0c1742a6ae1b92edb36c3783c108d2a01eae27536d6d895b58c945";
+static const char *ST_HASH        = "$ethereum$p*262144*fa84d0d5dd2e29588342cbecac883951ac5c7901ea461ac4fb706c736adedd84*2061a94be1551c0fc4437d2969911ee311d4ed79a9f79f35de25f37efe955356877692c1b8fe09d01529367a870cf7bc90699829c1d02de3eb46ba2ae80cd77c42e7514af4d37e6f1914c9201c900369451a01000000000000000000000000000000000000000000000000000000000000000000000000800000000000000000*bd57b5a6b5b56e15c78ecdcb39bd09390c0ea3b1fc421c44e18270426fd4dd64";
 
 u32         module_attack_exec    (MAYBE_UNUSED const hashconfig_t *hashconfig, MAYBE_UNUSED const user_options_t *user_options, MAYBE_UNUSED const user_options_extra_t *user_options_extra) { return ATTACK_EXEC;     }
 u32         module_dgst_pos0      (MAYBE_UNUSED const hashconfig_t *hashconfig, MAYBE_UNUSED const user_options_t *user_options, MAYBE_UNUSED const user_options_extra_t *user_options_extra) { return DGST_POS0;       }
@@ -61,7 +61,6 @@ typedef struct ethereum_pbkdf2
 {
   u32 salt_buf[16];
   u32 ciphertext[32];
-  u32 ciphertext_len;
 } ethereum_pbkdf2_t;
 
 static const char *SIGNATURE_ETHEREUM_PBKDF2 = "$ethereum$p";
@@ -201,13 +200,38 @@ int module_hash_decode (MAYBE_UNUSED const hashconfig_t *hashconfig, MAYBE_UNUSE
   // ciphertext
 
   const u8 *ciphertext_pos = token.buf[3];
-  const u32 ciphertext_len = token.len[3];
-  ethereum_pbkdf2->ciphertext_len=ciphertext_len;
-  //循环读取ciphertext,每次读取8个字节. ciphertext长度固定为256字节
-  for (u32 i = 0, j = 0; i < ciphertext_len; i += 8, j++)
-  {
-      ethereum_pbkdf2->ciphertext[j] = hex_to_u32 (&ciphertext_pos[i]);
-  }
+  ethereum_pbkdf2->ciphertext[0] = hex_to_u32 (&ciphertext_pos[0]);
+  ethereum_pbkdf2->ciphertext[1] = hex_to_u32 (&ciphertext_pos[8]);
+  ethereum_pbkdf2->ciphertext[2] = hex_to_u32 (&ciphertext_pos[16]);
+  ethereum_pbkdf2->ciphertext[3] = hex_to_u32 (&ciphertext_pos[24]);
+  ethereum_pbkdf2->ciphertext[4] = hex_to_u32 (&ciphertext_pos[32]);
+  ethereum_pbkdf2->ciphertext[5] = hex_to_u32 (&ciphertext_pos[40]);
+  ethereum_pbkdf2->ciphertext[6] = hex_to_u32 (&ciphertext_pos[48]);
+  ethereum_pbkdf2->ciphertext[7] = hex_to_u32 (&ciphertext_pos[56]);
+  ethereum_pbkdf2->ciphertext[8] = hex_to_u32 (&ciphertext_pos[64]);
+  ethereum_pbkdf2->ciphertext[9] = hex_to_u32 (&ciphertext_pos[72]);
+  ethereum_pbkdf2->ciphertext[10] = hex_to_u32 (&ciphertext_pos[80]);
+  ethereum_pbkdf2->ciphertext[11] = hex_to_u32 (&ciphertext_pos[88]);
+  ethereum_pbkdf2->ciphertext[12] = hex_to_u32 (&ciphertext_pos[96]);
+  ethereum_pbkdf2->ciphertext[13] = hex_to_u32 (&ciphertext_pos[104]);
+  ethereum_pbkdf2->ciphertext[14] = hex_to_u32 (&ciphertext_pos[112]);
+  ethereum_pbkdf2->ciphertext[15] = hex_to_u32 (&ciphertext_pos[120]);
+  ethereum_pbkdf2->ciphertext[16] = hex_to_u32 (&ciphertext_pos[128]);
+  ethereum_pbkdf2->ciphertext[17] = hex_to_u32 (&ciphertext_pos[136]);
+  ethereum_pbkdf2->ciphertext[18] = hex_to_u32 (&ciphertext_pos[144]);
+  ethereum_pbkdf2->ciphertext[19] = hex_to_u32 (&ciphertext_pos[152]);
+  ethereum_pbkdf2->ciphertext[20] = hex_to_u32 (&ciphertext_pos[160]);
+  ethereum_pbkdf2->ciphertext[21] = hex_to_u32 (&ciphertext_pos[168]);
+  ethereum_pbkdf2->ciphertext[22] = hex_to_u32 (&ciphertext_pos[176]);
+  ethereum_pbkdf2->ciphertext[23] = hex_to_u32 (&ciphertext_pos[184]);
+  ethereum_pbkdf2->ciphertext[24] = hex_to_u32 (&ciphertext_pos[192]);
+  ethereum_pbkdf2->ciphertext[25] = hex_to_u32 (&ciphertext_pos[200]);
+  ethereum_pbkdf2->ciphertext[26] = hex_to_u32 (&ciphertext_pos[208]);
+  ethereum_pbkdf2->ciphertext[27] = hex_to_u32 (&ciphertext_pos[216]);
+  ethereum_pbkdf2->ciphertext[28] = hex_to_u32 (&ciphertext_pos[224]);
+  ethereum_pbkdf2->ciphertext[29] = hex_to_u32 (&ciphertext_pos[232]);
+  ethereum_pbkdf2->ciphertext[30] = hex_to_u32 (&ciphertext_pos[240]);
+  ethereum_pbkdf2->ciphertext[31] = hex_to_u32 (&ciphertext_pos[248]);
 
   // hash
 
