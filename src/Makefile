@@ -6,7 +6,7 @@
 SHARED                  ?= 0
 DEBUG                   := 0
 PRODUCTION              := 1
-PRODUCTION_VERSION      := v6.2.6
+PRODUCTION_VERSION      := v6.2.7
 ENABLE_CUBIN            ?= 1
 ENABLE_BRAIN            ?= 1
 ENABLE_UNRAR            ?= 1
@@ -816,6 +816,7 @@ release: linux
 	$(RM) -f release/hashcat-$(VERSION_TAG)/Makefile
 	$(RM) -f release/hashcat-$(VERSION_TAG)/README.md
 	cd release && 7z a -t7z hashcat-$(VERSION_TAG).7z hashcat-$(VERSION_TAG)
+	$(RM) -rf release/hashcat-$(VERSION_TAG)
 ##
 ## cross compiled modules
 ##
